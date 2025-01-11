@@ -7,7 +7,7 @@
 
 **[getta4.github.io](https://getta4.github.io)**
 
-* **[Web](https://getta4.github.com/Web "Web")**([レポジトリ](https://github.com/getta4/Web "Githubに飛びます"))
+* **[Web](https://getta4.github.io/Web "Web")**([レポジトリ](https://github.com/getta4/Web "Githubに飛びます"))
     * **[video](https://getta4.github.io/Web/video "教育版Youtubeから動画を拾って再生できるサイトです。")**
 
     * **app**
