@@ -1,9 +1,10 @@
-# Getta4.github.io
+# Getta4.github.io (Getan9.com)
 **＝のGithub Sitesへようこそ！**
 
 ＝が開発しているサイトです。コードなどは **[Github](https://github.com/getta4/getta4.github.io)** から確認できます。
 
 ## 現在公開中のページ
+すべて https://Getta4.github.io/* → https://Getan9.com/* にリダイレクトします
 
 **[getta4.github.io](https://getta4.github.io)**
 
