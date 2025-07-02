@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap'); 
+
+@font-face {
+    font-family: 'Amazon Ember Display';
+    src: url('../font/AmazonEmberDisplay_Bd.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+html{
+    text-align: center;
+    font-family: 'Amazon Ember Display', 'Noto Sans JP', sans-serif;
+    font-display: swap;
+}

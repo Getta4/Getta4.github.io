@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>Test Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <!--<link rel="icon" href="image/favicon.ico">-->
+        <link rel="stylesheet" href="css/style.css">
+        <!--OGP-->
+        <meta property="og:title" content="Get4_'s website" />
+        <meta property="og:description" content="Get4_ のウェブサイトです" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://getta4.github.io/Web/" />
+        <meta property="og:image" content="https://getta4.github.io/Web/Legacy/image/main.png" />
+        <meta property="og:site_name" content="Get4_'s website" />
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:title" content="Get4_'s website">
+        <meta name="twitter:description" content="Get4_ のウェブサイトです" />
+        <meta name="twitter:image" content="https://getta4.github.io/Web/image/move/1.png" />
+        <style>
+        #ID-button{
+            width: 10%;
+            height: 40px;
+            cursor: pointer;
+        }
+        #ID-button:hover{
+            background-color: #f0f0f03b;
+            cursor: not-allowed;
+        }
+        #SearchButton{
+            width: 5%;
+            height: 40px;
+            cursor: pointer;
+        }
+        #SearchButton:hover{
+            background-color: #f0f0f03b;
+        }
+        #text{
+            width: 30%;
+            height: 40px;
+        }
+        html{
+            text-align: center;
+        }
+        iframe{
+            border: none;
+        }
+        </style>
+    </head>
+    <body>         
+        <input type="text" id="text" placeholder="単語を入れて検索ボタンを押すとGoogle検索ができます">
+        <button title="現在不具合発生中のため動画が視聴できません。" id="ID-button">表示</button>
+        <button onclick="showSearch()" id="SearchButton">検索</button><br>
+        <iframe id="video" title="video" src="https://www.google.com/?igu=1" width="80%" height="900px" allowfullscreen></iframe>
+        <!-- https://www.youtubeeducation.com/watch?v=cr8magEp0Ho -->
+        <!-- <iframe id="searchFrame" src=""></iframe> -->
+        <script>
+            //変数の取得
+            let videoID =document.getElementById("text");
+            let videoFrame = document.getElementById("video");
+            let searchButton = document.getElementById("SearchButton");
+            let clickCount = 0;
+            //iframeの再取得、設定
+            function getVideo(){
+            console.log(videoID.value);
+                if(videoID.value == "" || videoID.value == "IDを入力してください"){ //IDが空の場合の処理(警告)
+                    videoID.value = "IDを入力してください";
+                    videoID.focus();
+                    videoID.select();
+                }else{
+                    videoFrame.src = "https://www.youtubeeducation.com/embed/"+ videoID.value +"?enablejsapi=1&rel=0&control=1&showinfo=0&start=0&autoplay=0&cc_load_policy=0&errorlinks=1&hl=en&authuser=1&modestbranding=1&rct=CpYBAYAC26fM5FXw2EsbnNLmbI_ESVJO-B2wpTpPFAojmNHDiScmYU23ReqQ0B06OGumVKlFyTZVDlz9DZJzHdiUnZnvF0pV97tHtvh8bj8sDTqqrqdEmMO3DF4doiNPo8o2faTCT0RD3_1-5tL6sYQ4fomb1mtS-ZLLczJ11Q2nWqTIfiF2Fp9GH6oPxyo4-jn2HFHhNYVG&embed_config=%7B%22hideInfoBar%22%3Afalse%2C%22disableRelatedVideos%22%3Atrue%2C%22enc%22%3A%22AYAC26cS36wdogFtlKeoqp0G-jkxcCRZiqLz5fcAb9R2CUN0NOODXUxb1kcPcz81OCmfsioM8jM5MuNQfHGFE_mR8MSJpeJmpq6RTLZL7A9x-pqqutSDLt-5buZ-BTOAJ0qH4pAnLAumvh987BOfKEXqCHW2COoeXpbF1Q7TzfJbQgQo_W-SxLRzKdT2VVwFp_Z0Ba5QMIxV6edtHlHUAW0KuxdywcjhnSSPEmegcxVa47CP%22%7D";
+                }
+            }
+            //memo:https://www.google.com/search?q=[単語]&igu=1
+            function showSearch(){ //iframeをGoogleに変更 ID窓に値が入力されている場合は検索へ移動 
+                if(videoID.value == "" || videoID.value == "IDを入力してください"){
+                    videoFrame.src = "https://www.google.com/?igu=1";
+                }else{
+                    videoFrame.src = "https://www.google.com/search?q=" + videoID.value + "&igu=1"
+                }
+            }
+        </script>
+    </body>
+</html>-
