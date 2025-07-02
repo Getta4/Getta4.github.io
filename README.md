@@ -1,10 +1,10 @@
-# Getta4.github.io (Getan9.com)
+# Getta4.github.io (gtnk.xyz)
 **＝のGithub Sitesへようこそ！**
 
-＝が開発しているサイトです。コードなどは **[Github](https://github.com/getta4/getta4.github.io)** から確認できます。
+＝が開発しているサイトです。コードなどは **[Github](https://github.com/getta4/)** から確認できます。
 
 ## 現在公開中のページ
-すべて https://Getta4.github.io/* → https://Getan9.com/* にリダイレクトします
+すべて https://Getta4.github.io/* → https://gtnk.xyz/* にリダイレクトします
 
 **[getta4.github.io](https://getta4.github.io)**
 
@@ -17,3 +17,5 @@
         * [3](https://getta4.github.io/Web/app/2 "改造版 速度が最初のままから変化しません")
     
     * **[Legacy](https://getta4.github.io/Web/Legacy "harhar021.comのアーカイブです。")**
+
+* **[GetaBot](https://getta4.github.io/GetaBot "Summer of makingで作成したDiscordBotです。")**
