@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <title>あいうえおあお</title>
+        <title>gtnk.xyz</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
         <link rel="icon" href="image/favicon.ico">
         <link rel="manifest" href="manifest.webmanifest">
+        <link rel="stylesheet" href="css/style.css">
       
         <meta name="description" content="Get4_ のウェブサイトです">
 
@@ -74,7 +75,7 @@
     <body id="dark">
         <input type="image" src="image/lightmode.webp" width="32" height="32" alt="mode_change" id="mode_change" onclick="mode_change()">
         <div id="maincanvas">
-            <h1>あいうえおあお</h1>
+            <h1>げたんくのサイト</h1>
             <!--<button onclick="move()"">
                 <img src="image/move/1.webp" alt="Icon" id="move">  
             </button>-->
@@ -87,15 +88,15 @@
                 <a href="https://Youtube.com/@Getq_" title="音ゲー動画" target="_blank">
                 <img src="image/youtube_white.webp" width="128" height="128" alt="YouTube" id="youtube"/>
                 </a>
-                <a href="https://github.com/Getta4" title="＝が作ってるプログラムが見れるよ" target="_blank">
+                <a href="https://github.com/Getta4" title="下駄が作ってるプログラムが見れるよ" target="_blank">
                 <img src="image/github_white.webp" width="128" height="128" alt="Github" id="github"/>
                 </a>
                 <!--<a href="https://blog.getan9.com/" title="不定期に更新してる音ゲーブログ" target="_blank">
                 <img src="image/bloggerlogo.webp" width="105" height="105" alt="Github"/>
                 </a>-->
-                <a href="https://get4.notion.site/" title="暇なときに調査してる音ゲー設置情報が見れます" target="_blank">
+                <!--<a href="https://get4.notion.site/" title="暇なときに調査してる音ゲー設置情報が見れます" target="_blank">
                 <img src="image/notion_white.webp" width="128" height="128" alt="Notion" id="notion"/>
-                </a>
+                </a>-->
             </div>
         </div>
       
@@ -106,9 +107,58 @@
             const github = document.getElementById("github")
             const notion = document.getElementById("notion")
             const Img = document.getElementById("move")
-            const mode = document.getElementById("dark")
-            const whiteMode = document.getElementById("white")
+            let mode = document.body;
             let image = 1;
+
+            // Cookieの操作関数
+            function setCookie(name, value, days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                const expires = "expires=" + date.toUTCString();
+                document.cookie = name + "=" + value + ";" + expires + ";path=/";
+            }
+
+            function getCookie(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for(let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            // ページ読み込み時にCookieから設定を復元
+            function loadTheme() {
+                const savedTheme = getCookie('theme');
+                if (savedTheme === 'light') {
+                    setLightMode();
+                } else {
+                    setDarkMode();
+                }
+            }
+
+            function setDarkMode() {
+                mode.id = "dark";
+                twitter.src = "image/x_white.webp";
+                youtube.src = "image/youtube_white.webp";
+                github.src = "image/github_white.webp";
+                //notion.src = "image/notion_white.webp";
+                modePicture.src = "image/lightmode.webp";
+                setCookie('theme', 'dark', 365);
+            }
+
+            function setLightMode() {
+                mode.id = "white";
+                twitter.src = "image/x_dark.webp";
+                youtube.src = "image/youtube_dark.webp";
+                github.src = "image/github_dark.webp";
+                //notion.src = "image/notion_dark.webp";
+                modePicture.src = "image/darkmode.webp";
+                setCookie('theme', 'light', 365);
+            }
+
             function move(){
                 image += 1;
                 if(image > 4){
@@ -116,23 +166,17 @@
                 }
                 Img.src = "image/move/"+image+".webp";
             }
+
             function mode_change(){
-                if(mode == document.getElementById("dark")){
-                    mode.id = "white";
-                    twitter.src = "image/x_dark.webp";
-                    youtube.src = "image/youtube_dark.webp";
-                    github.src = "image/github_dark.webp";
-                    notion.src = "image/notion_dark.webp";
-                    modePicture.src = "image/darkmode.webp";
+                if(mode.id === "dark"){
+                    setLightMode();
                 }else{
-                    mode.id = "dark";
-                    twitter.src = "image/x_white.webp";
-                    youtube.src = "image/youtube_white.webp";
-                    github.src = "image/github_white.webp";
-                    notion.src = "image/notion_white.webp";
-                    modePicture.src = "image/lightmode.webp";
+                    setDarkMode();
                 }
             }
+
+            // ページ読み込み時にテーマを復元
+            window.addEventListener('DOMContentLoaded', loadTheme);
         </script>
     </body>
 </html>
