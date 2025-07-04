@@ -132,10 +132,16 @@
             // ページ読み込み時にCookieから設定を復元
             function loadTheme() {
                 const savedTheme = getCookie('theme');
-                if (savedTheme === 'light') {
-                    setLightMode();
-                } else {
+                if (savedTheme) {
+                    if (savedTheme === 'light') {
+                        setLightMode();
+                    } else {
+                        setDarkMode();
+                    }
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     setDarkMode();
+                } else {
+                    setLightMode();
                 }
             }
 
