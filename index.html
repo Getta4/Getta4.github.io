@@ -26,13 +26,12 @@
         <meta property="og:title" content="gtnk.xyz" />
         <meta property="og:description" content="Geta's website" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://getta4.github.io/Web/" />
-        <meta property="og:image" content="https://getta4.github.io/Web/Legacy/image/main.png" />
+        <meta property="og:url" content="https://getta4.github.io/" />
+        <meta property="og:image" content="https://getta4.github.io/Legacy/image/main.png" />
         <meta property="og:site_name" content="Geta's website" />
         <meta name="twitter:card" content="summary"/>
         <meta name="twitter:title" content="gtnk.xyz">
         <meta name="twitter:description" content="Geta's website" />
-        <meta name="twitter:image" content="https://getta4.github.io/Web/image/move/1.png" />
 
         <style>
             /*@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');*/
@@ -44,12 +43,105 @@
             #maincanvas{
                 text-align: center;
             }
-            #move{
+            #img_ico{
                 height: 150px;
                 width: 150px;
-                background-color: white;
-                border: 4px double black;
             }
+            /* ステータスインジケーター用のスタイル */
+            .status-container {
+                position: relative;
+                display: inline-block;
+            }
+            .status-indicator {
+                position: absolute;
+                bottom: 5px;
+                right: 5px;
+                width: 30px;
+                height: 30px;
+                background-size: cover;
+                background-position: center;
+                z-index: 10;
+            }
+
+            /* ツールチップのスタイル */
+            .status-indicator::before,
+            .status-indicator::after,
+            .status-container::before,
+            .status-container::after {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.2s ease, visibility 0.2s ease;
+                pointer-events: none;
+                z-index: 20;
+            }
+
+            /* 吹き出し本体 */
+            .status-indicator::before,
+            .status-container::before {
+                content: attr(data-tooltip);
+                background-color: #18191c;
+                color: #dcddde;
+                padding: 6px 10px;
+                border-radius: 5px;
+                font-size: 14px;
+                font-family: sans-serif;
+                white-space: nowrap;
+            }
+
+            /* 吹き出しのしっぽ（三角形） */
+            .status-indicator::after,
+            .status-container::after {
+                content: '';
+                border: 6px solid transparent;
+            }
+
+            /* ステータスアイコンのツールチップ位置 */
+            .status-indicator::before, .status-indicator::after {
+                bottom: 120%;
+            }
+            .status-indicator::after {
+                border-top-color: #18191c;
+                bottom: calc(120% - 12px);
+            }
+
+            /* プロフィールアイコンのツールチップ位置 */
+            .status-container::before, .status-container::after {
+                top: -40px;
+            }
+            .status-container::after {
+                border-top-color: #18191c;
+                top: -12px;
+            }
+
+            /* ホバー時にツールチップを表示 */
+            .status-indicator:hover::before,
+            .status-indicator:hover::after,
+            .status-container:hover::before,
+            .status-container:hover::after,
+            .status-container.show-tooltip::before,
+            .status-container.show-tooltip::after {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* ステータスアイコンのホバー中は、親のツールチップを非表示にする */
+            .status-container:has(.status-indicator:hover)::before,
+            .status-container:has(.status-indicator:hover)::after {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            /* Copied! のスタイル */
+            .status-container.copied::before {
+                background-color: #43a25a;
+            }
+            .status-container.copied::after {
+                border-top-color: #43a25a;
+            }
+
             h1{
                 font-size: 50px;
             }
@@ -74,6 +166,23 @@
             #followme a img{
                 text-decoration: none;
             }
+            #mailto {
+                text-decoration: none;
+                color: inherit;
+            }
+            #mail {
+                text-decoration: none;
+                color: inherit;
+                font-size: 20px;
+            }
+            #headerLink {
+                text-decoration: none;
+                color: inherit;
+            }
+            #header {
+                text-decoration: none;
+                color: inherit;
+            }
         </style>
         
     </head>
@@ -81,30 +190,30 @@
     <body id="dark">
         <input type="image" src="image/lightmode.webp" width="32" height="32" alt="mode_change" id="mode_change" onclick="mode_change()">
         <div id="maincanvas">
-            <h1>Geta's website</h1>
-            <!--<button onclick="move()"">
-                <img src="image/move/1.webp" alt="Icon" id="move">  
-            </button>-->
-            <input type="image" src="image/move/1.webp" alt="Icon" id="move" onclick="move()">
-            <h2>Follow me!</h2>
-            <div id="followme">
-                <a href="https://twitter.com/Get4_" title="Twitter" target="_blank">
-                <img src="image/x_white.webp" width="128" height="128" alt="twitter" id="twitter"/>
-                </a>
-                <a href="https://Youtube.com/@Getq_" title="YouTube" target="_blank">
-                <img src="image/youtube_white.webp" width="128" height="128" alt="YouTube" id="youtube"/>
-                </a>
-                <a href="https://github.com/Getta4" title="Github" target="_blank">
-                <img src="image/github_white.webp" width="128" height="128" alt="Github" id="github"/>
-                </a>
+            <a id="headerLink" href="https://github.com/Getta4/Getta4.github.io" alt="This site's repo" target="_blank"><h1 id="header">Geta's website</h1></a>
+            <div class="status-container">
+                <img id="img_ico" src="image/icon.webp" alt="Icon">
+                <div class="status-indicator" id="discord-status"></div>
             </div>
-            <h2>Status</h2>
             <div id="status">
-                <img src="https://api.statusbadges.me/badge/status/957152000313786459?label=Status" alt="status">
+                <br>
                 <img src="https://api.statusbadges.me/badge/playing/957152000313786459" alt="playing">
                 <br>
                 <img src="https://api.statusbadges.me/badge/vscode/957152000313786459" alt="vscode">
             </div>
+            <div id="followme">
+                <br>
+                <a href="https://twitter.com/Get4_" title="Twitter" target="_blank">
+                <img src="image/x_white.webp" width="64" height="64" alt="twitter" id="twitter"/>
+                </a>
+                <a href="https://Youtube.com/@Getq_" title="YouTube" target="_blank">
+                <img src="image/youtube_white.webp" width="64" height="64" alt="YouTube" id="youtube"/>
+                </a>
+                <a href="https://github.com/Getta4" title="Github" target="_blank">
+                <img src="image/github_white.webp" width="64" height="64" alt="Github" id="github"/>
+                </a>
+            </div>
+            <a id="mailto" href="mailto:mail@gtnk.xyz" target="_blank"><p id="mail">Contact : mail@genk.xyz</p></a>
         </div>
       
         <script>
@@ -112,10 +221,171 @@
             const twitter = document.getElementById("twitter")
             const youtube = document.getElementById("youtube")
             const github = document.getElementById("github")
-            const notion = document.getElementById("notion")
             const Img = document.getElementById("move")
+            const discordStatus = document.getElementById("discord-status")
             let mode = document.body;
             let image = 1;
+
+            // より詳細なステータス判定関数
+            function parseStatusFromSVG(svgContent) {
+                let decodedContent = '';
+                
+                // Base64データURLかどうかを判定してデコードする
+                if (svgContent.startsWith('data:image/svg+xml;base64,') || svgContent.startsWith('data:image/svg+xml; charset=utf-8;base64,')) {
+                    try {
+                        // Base64部分を抽出してデコード
+                        const base64String = svgContent.split(',')[1];
+                        decodedContent = atob(base64String);
+                    } catch (e) {
+                        console.error('Base64デコードに失敗しました:', e);
+                        decodedContent = svgContent; // 失敗した場合は元の内容をそのまま使う
+                    }
+                } else {
+                    // Base64でない場合は、そのままの内容を使う
+                    decodedContent = svgContent;
+                }
+
+                const lowerCaseContent = decodedContent.toLowerCase();
+
+                // 優先度の高いステータスから順に判定
+                if (lowerCaseContent.includes('online')) {
+                    return 'online';
+                }
+                if (lowerCaseContent.includes('idle')) {
+                    return 'idle';
+                }
+                if (lowerCaseContent.includes('do not disturb') || lowerCaseContent.includes('dnd')) {
+                    return 'dnd';
+                }
+                // offlineは他の単語に含まれる可能性があるため、最後に判定
+                if (lowerCaseContent.includes('offline')) {
+                    return 'offline';
+                }
+                
+                // 色による判定（フォールバック）
+                if (lowerCaseContent.includes('#43b581') || lowerCaseContent.includes('rgb(67, 181, 129)')) {
+                    return 'online'; // 緑色
+                } else if (lowerCaseContent.includes('#faa61a') || lowerCaseContent.includes('rgb(250, 166, 26)')) {
+                    return 'idle'; // 黄色
+                } else if (lowerCaseContent.includes('#f04747') || lowerCaseContent.includes('rgb(240, 71, 71)')) {
+                    return 'dnd'; // 赤色
+                } else if (lowerCaseContent.includes('#747f8d') || lowerCaseContent.includes('rgb(116, 127, 141)')) {
+                    return 'offline'; // グレー
+                }
+                
+                return 'offline'; // デフォルト
+            }
+
+            // Discordステータスを更新（修正版）
+            async function updateDiscordStatusWithProxy() {
+                try {
+                    const proxyUrl = 'https://api.allorigins.win/get?url=';
+                    const apiUrl = `https://api.statusbadges.me/badge/status/957152000313786459?t=${Date.now()}`;
+                    
+                    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // ★★★ ここから追加 ★★★
+                    console.log("--- SVG Content from Proxy ---");
+                    console.log(data.contents);
+                    // ★★★ ここまで追加 ★★★
+
+                    const status = parseStatusFromSVG(data.contents);
+                    
+                    console.log('Detected Status:', status); // デバッグ用
+                    showStatusImage(status);
+                    
+                } catch (error) {
+                    console.error('Discord status fetch error:', error);
+                    updateDiscordStatusFallback();
+                }
+            }
+
+            // フォールバック（修正版）
+            function updateDiscordStatusFallback() {
+                fetch('https://api.statusbadges.me/badge/status/957152000313786459?t=' + Date.now())
+                    .then(response => response.text())
+                    .then(svgContent => {
+                       
+                        console.log("--- SVG Content from Fallback ---");
+                        console.log(svgContent);
+                       
+
+                        const status = parseStatusFromSVG(svgContent);
+                        //console.log('Fallback Detected Status:', status); // デバッグ用
+                        showStatusImage(status);
+                    })
+                    .catch(error => {
+                        console.error('Fallback error:', error);
+                        showStatusImage('offline');
+                    });
+            }
+
+            // 指定されたステータスの画像を表示
+            function showStatusImage(status) {
+                discordStatus.innerHTML = '';
+
+                let statusClass = 'status-offline';
+                let imgSrc = 'image/status/offline.webp';
+                let altText = 'Offline';
+                let tooltipText = 'Offline';
+
+                switch(status) {
+                    case 'online':
+                        statusClass = 'status-online';
+                        imgSrc = 'image/status/online.webp';
+                        altText = 'Online';
+                        tooltipText = 'Online';
+                        break;
+                    case 'idle':
+                        statusClass = 'status-idle';
+                        imgSrc = 'image/status/idle.webp';
+                        altText = 'Idle';
+                        tooltipText = 'Idle';
+                        break;
+                    case 'dnd':
+                        statusClass = 'status-dnd';
+                        imgSrc = 'image/status/dnd.webp';
+                        altText = 'Do Not Disturb';
+                        tooltipText = 'Do Not Disturb';
+                        break;
+                }
+
+                discordStatus.className = 'status-indicator ' + statusClass;
+                discordStatus.setAttribute('data-tooltip', tooltipText);
+
+                const statusImg = document.createElement('img');
+                statusImg.src = imgSrc;
+                statusImg.alt = altText;
+                statusImg.style.width = '100%';
+                statusImg.style.height = '100%';
+                statusImg.style.objectFit = 'cover';
+                statusImg.style.borderRadius = '50%';
+
+                statusImg.onload = function() {
+                    discordStatus.innerHTML = '';
+                    discordStatus.appendChild(statusImg);
+                };
+
+                statusImg.onerror = function() {
+                    console.error(`画像の読み込みに失敗しました: ${imgSrc}。背景色のみ表示します。`);
+                    discordStatus.innerHTML = '';
+                };
+            }
+
+            // メイン初期化関数
+            function initializeDiscordStatus() {
+                // プロキシ経由を試す
+                updateDiscordStatusWithProxy().catch(() => {
+                    // 失敗時はフォールバック
+                    updateDiscordStatusFallback();
+                });
+            }
 
             // Cookieの操作関数
             function setCookie(name, value, days) {
@@ -157,7 +427,6 @@
                 twitter.src = "image/x_white.webp";
                 youtube.src = "image/youtube_white.webp";
                 github.src = "image/github_white.webp";
-                //notion.src = "image/notion_white.webp";
                 modePicture.src = "image/lightmode.webp";
                 setCookie('theme', 'dark', 365);
             }
@@ -167,17 +436,8 @@
                 twitter.src = "image/x_dark.webp";
                 youtube.src = "image/youtube_dark.webp";
                 github.src = "image/github_dark.webp";
-                //notion.src = "image/notion_dark.webp";
                 modePicture.src = "image/darkmode.webp";
                 setCookie('theme', 'light', 365);
-            }
-
-            function move(){
-                image += 1;
-                if(image > 4){
-                    image=1;
-                }
-                Img.src = "image/move/"+image+".webp";
             }
 
             function mode_change(){
@@ -188,8 +448,37 @@
                 }
             }
 
-            // ページ読み込み時にテーマを復元
-            window.addEventListener('DOMContentLoaded', loadTheme);
+            // ページ読み込み時にテーマを復元とDiscordステータスを更新
+            window.addEventListener('DOMContentLoaded', () => {
+                loadTheme();
+                initializeDiscordStatus();
+
+                const statusContainer = document.querySelector('.status-container');
+                const originalTooltipText = 'Discord : get4_';
+                let isCopying = false;
+
+                statusContainer.setAttribute('data-tooltip', originalTooltipText);
+
+                statusContainer.addEventListener('click', () => {
+                    if (isCopying) return;
+
+                    navigator.clipboard.writeText('get4_').then(() => {
+                        isCopying = true;
+                        statusContainer.setAttribute('data-tooltip', 'Copied!');
+                        statusContainer.classList.add('copied');
+                        statusContainer.classList.add('show-tooltip');
+
+                        setTimeout(() => {
+                            statusContainer.setAttribute('data-tooltip', originalTooltipText);
+                            statusContainer.classList.remove('copied');
+                            statusContainer.classList.remove('show-tooltip');
+                            isCopying = false;
+                        }, 1500);
+                    }).catch(err => {
+                        console.error('クリップボードへのコピーに失敗しました:', err);
+                    });
+                });
+            });
         </script>
     </body>
 </html>
