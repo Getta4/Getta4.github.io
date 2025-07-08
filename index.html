@@ -8,7 +8,7 @@
         <link rel="manifest" href="manifest.webmanifest">
         <link rel="stylesheet" href="css/style.css">
       
-        <meta name="description" content="Get4_ のウェブサイトです">
+        <meta name="description" content="Geta's website">
 
         <!--moveで使う画像を事前読み込み-->
         <link rel="preload" href="image/move/1.webp" as="image">
@@ -23,15 +23,15 @@
         <link rel="preload" href="image/lightmode.webp" as="image">
 
         <!--OGP-->
-        <meta property="og:title" content="あいうえおあお" />
-        <meta property="og:description" content="Get4_ のウェブサイトです" />
+        <meta property="og:title" content="gtnk.xyz" />
+        <meta property="og:description" content="Geta's website" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://getta4.github.io/Web/" />
         <meta property="og:image" content="https://getta4.github.io/Web/Legacy/image/main.png" />
-        <meta property="og:site_name" content="Get4_'s website" />
+        <meta property="og:site_name" content="Geta's website" />
         <meta name="twitter:card" content="summary"/>
-        <meta name="twitter:title" content="あいうえおあお">
-        <meta name="twitter:description" content="Get4_ のウェブサイトです" />
+        <meta name="twitter:title" content="gtnk.xyz">
+        <meta name="twitter:description" content="Geta's website" />
         <meta name="twitter:image" content="https://getta4.github.io/Web/image/move/1.png" />
 
         <style>
@@ -68,6 +68,12 @@
             #mode_change{
                 border-right: 10px;
             }
+            #followme a{
+                text-decoration: none;
+            }
+            #followme a img{
+                text-decoration: none;
+            }
         </style>
         
     </head>
@@ -75,28 +81,29 @@
     <body id="dark">
         <input type="image" src="image/lightmode.webp" width="32" height="32" alt="mode_change" id="mode_change" onclick="mode_change()">
         <div id="maincanvas">
-            <h1>げたんくのサイト</h1>
+            <h1>Geta's website</h1>
             <!--<button onclick="move()"">
                 <img src="image/move/1.webp" alt="Icon" id="move">  
             </button>-->
             <input type="image" src="image/move/1.webp" alt="Icon" id="move" onclick="move()">
             <h2>Follow me!</h2>
             <div id="followme">
-                <a href="https://twitter.com/Get4_" title="いつもここにいる" target="_blank">
+                <a href="https://twitter.com/Get4_" title="Twitter" target="_blank">
                 <img src="image/x_white.webp" width="128" height="128" alt="twitter" id="twitter"/>
                 </a>
-                <a href="https://Youtube.com/@Getq_" title="音ゲー動画" target="_blank">
+                <a href="https://Youtube.com/@Getq_" title="YouTube" target="_blank">
                 <img src="image/youtube_white.webp" width="128" height="128" alt="YouTube" id="youtube"/>
                 </a>
-                <a href="https://github.com/Getta4" title="下駄が作ってるプログラムが見れるよ" target="_blank">
+                <a href="https://github.com/Getta4" title="Github" target="_blank">
                 <img src="image/github_white.webp" width="128" height="128" alt="Github" id="github"/>
                 </a>
-                <!--<a href="https://blog.getan9.com/" title="不定期に更新してる音ゲーブログ" target="_blank">
-                <img src="image/bloggerlogo.webp" width="105" height="105" alt="Github"/>
-                </a>-->
-                <!--<a href="https://get4.notion.site/" title="暇なときに調査してる音ゲー設置情報が見れます" target="_blank">
-                <img src="image/notion_white.webp" width="128" height="128" alt="Notion" id="notion"/>
-                </a>-->
+            </div>
+            <h2>Status</h2>
+            <div id="status">
+                <img src="https://api.statusbadges.me/badge/status/957152000313786459?label=Status" alt="status">
+                <img src="https://api.statusbadges.me/badge/playing/957152000313786459" alt="playing">
+                <br>
+                <img src="https://api.statusbadges.me/badge/vscode/957152000313786459" alt="vscode">
             </div>
         </div>
       
