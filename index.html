@@ -104,7 +104,7 @@
             }
             .status-indicator::after {
                 border-top-color: #18191c;
-                bottom: calc(125% - 12px);
+                bottom: calc(125% - 11px);
             }
 
             /* プロフィールアイコンのツールチップ位置 */
@@ -113,7 +113,7 @@
             }
             .status-container::after {
                 border-top-color: #18191c;
-                top: -3px;
+                top: 9px;
             }
 
             /* ホバー時にツールチップを表示 */
@@ -127,9 +127,9 @@
                 visibility: visible;
             }
 
-            /* ステータスアイコンのホバー中は、親のツールチップを非表示にする */
-            .status-container:has(.status-indicator:hover)::before,
-            .status-container:has(.status-indicator:hover)::after {
+            /* ステータスアイコンのホバー中は、親のツールチップを非表示にする（コピー中を除く） */
+            .status-container:not(.copied):has(.status-indicator:hover)::before,
+            .status-container:not(.copied):has(.status-indicator:hover)::after {
                 opacity: 0;
                 visibility: hidden;
             }
@@ -458,7 +458,13 @@
 
                 statusContainer.setAttribute('data-tooltip', originalTooltipText);
 
-                statusContainer.addEventListener('click', () => {
+                statusContainer.addEventListener('click', (event) => {
+                    // クリックされた要素がステータスインジケーターまたはその子要素の場合、コピー処理を中断
+                    const statusIndicator = document.getElementById('discord-status');
+                    if (statusIndicator.contains(event.target)) {
+                        return;
+                    }
+
                     if (isCopying) return;
 
                     navigator.clipboard.writeText('get4_').then(() => {
