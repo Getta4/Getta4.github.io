@@ -6,10 +6,9 @@
 ## 現在公開中のページ
 すべて https://Getta4.github.io/* → https://gtnk.xyz/* にリダイレクトします
 
-**[getta4.github.io](https://getta4.github.io)**
+**[getta4.github.io](https://getta4.github.io)** ←ここがメインのサイトです。サイトの更新はここがメイン
 
-
-* **[video](https://getta4.github.io/Web/video "教育版Youtubeから動画を拾って再生できるサイトです。")**
+* ~~**[video](https://getta4.github.io/Web/video "教育版Youtubeから動画を拾って再生できるサイトです。")**~~
 
 * **app**
     * [1](https://getta4.github.io/Web/app/1 "テトリスっぽいゲームです")
