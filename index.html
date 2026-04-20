@@ -10,12 +10,13 @@
       
         <meta name="description" content="Geta's website">
 
-        <!--moveで使う画像を事前読み込み-->
-        <link rel="preload" href="image/move/1.webp" as="image">
-        <link rel="preload" href="image/move/2.webp" as="image">
-        <link rel="preload" href="image/move/3.webp" as="image">
-        <link rel="preload" href="image/move/4.webp" as="image">
-        
+        <!--Preload-->
+        <link rel="preload" href="image/x_white.webp" as="image">
+        <link rel="preload" href="image/youtube_white.webp" as="image">
+        <link rel="preload" href="image/github_white.webp" as="image">
+        <link rel="preload" href="image/notion_white.webp" as="image">
+        <link rel="preload" href="image/darkmode.webp" as="image">
+
         <link rel="preload" href="image/x_dark.webp" as="image">
         <link rel="preload" href="image/youtube_dark.webp" as="image">
         <link rel="preload" href="image/github_dark.webp" as="image">
@@ -29,15 +30,13 @@
         <meta property="og:url" content="https://getta4.github.io/" />
         <meta property="og:image" content="https://getta4.github.io/Legacy/image/main.png" />
         <meta property="og:site_name" content="Geta's website" />
+        <!--ここからTwitter専用-->
         <meta name="twitter:card" content="summary"/>
         <meta name="twitter:title" content="gtnk.xyz">
         <meta name="twitter:description" content="Geta's website" />
 
         <style>
-            /*@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');*/
-
             html{
-                /*font-family: "Noto Sans JP";*/
                 font-display: swap;
             }
             #maincanvas{
@@ -50,7 +49,8 @@
                 height: 200px;
                 width: 200px;
             }
-            /* ステータスインジケーター用のスタイル */
+
+            /* ステータスアイコンのデザイン */
             .status-container {
                 position: relative;
                 display: inline-block;
@@ -66,7 +66,7 @@
                 z-index: 10;
             }
 
-            /* ツールチップのスタイル */
+            /* ホバー時の設定など */
             .status-indicator::before,
             .status-indicator::after,
             .status-container::before,
@@ -145,6 +145,7 @@
                 border-top-color: #43a25a;
             }
 
+            /* ページスタイル */
             h1{
                 font-size: 60px;
             }
@@ -189,9 +190,8 @@
                 color: inherit;
             }
 
-            /* --- レスポンシブ対応 --- */
+            /* パソコン以外向けデザイン */
 
-            /* タブレット向け：画面幅が960px以下の場合 */
             @media (max-width: 960px) {
                 #img_ico {
                     height: 180px;
@@ -215,7 +215,6 @@
                 }
             }
 
-            /* スマートフォン向け：画面幅が600px以下の場合 */
             @media (max-width: 600px) {
                 #img_ico {
                     height: 120px;
@@ -269,19 +268,14 @@
                 </a>
                 
             </div>
+            <!--相互リンク用 aタグ-->
             <a href="https://www.threads.net/@gtnk.xyz" title="Threads" id="threads_d" target="_blank" rel="me"></a>
             <a rel="me" href="https://mstdn.social/@get4_"></a>
         </div>
       
         <script>
-            const modePicture = document.getElementById("mode_change")
-            const twitter = document.getElementById("twitter")
-            const youtube = document.getElementById("youtube")
-            const github = document.getElementById("github")
-            const Img = document.getElementById("move")
             const discordStatus = document.getElementById("discord-status")
             let mode = document.body;
-            let image = 1;
 
             // より詳細なステータス判定関数
             function parseStatusFromSVG(svgContent) {
@@ -347,14 +341,14 @@
                     
                     const data = await response.json();
                     
-                    // ★★★ ここから追加 ★★★
+                    // SVG内容出力　Discordのステータスチェック
                     console.log("--- SVG Content from Proxy ---");
                     console.log(data.contents);
-                    // ★★★ ここまで追加 ★★★
+                    // ここまで
 
                     const status = parseStatusFromSVG(data.contents);
                     
-                    console.log('Detected Status:', status); // デバッグ用
+                    console.log('Detected Status:', status); // ステータス判定　チェック
                     showStatusImage(status);
                     
                 } catch (error) {
@@ -363,7 +357,7 @@
                 }
             }
 
-            // フォールバック（修正版）
+            // フォールバック
             function updateDiscordStatusFallback() {
                 fetch('https://api.statusbadges.me/badge/status/957152000313786459?t=' + Date.now())
                     .then(response => response.text())
@@ -479,6 +473,13 @@
                 }
             }
 
+            //テーマ関連関数
+            
+            const modePicture = document.getElementById("mode_change")
+            const twitter = document.getElementById("twitter")
+            const youtube = document.getElementById("youtube")
+            const github = document.getElementById("github")
+
             function setDarkMode() {
                 mode.id = "dark";
                 twitter.src = "image/x_white.webp";
@@ -505,10 +506,10 @@
                 }
             }
 
-            // ページ読み込み時にテーマを復元とDiscordステータスを更新
+            // ページ読み込み時の動作
             window.addEventListener('DOMContentLoaded', () => {
-                loadTheme();
-                initializeDiscordStatus();
+                loadTheme();//cokkieからテーマ復元
+                initializeDiscordStatus();//Discordステータスを取得
 
                 const statusContainer = document.querySelector('.status-container');
                 const originalTooltipText = 'Discord : get4_';
@@ -516,6 +517,7 @@
 
                 statusContainer.setAttribute('data-tooltip', originalTooltipText);
 
+                //DiscordIDをコピー
                 statusContainer.addEventListener('click', (event) => {
                     // クリックされた要素がステータスインジケーターまたはその子要素の場合、コピー処理を中断
                     const statusIndicator = document.getElementById('discord-status');
