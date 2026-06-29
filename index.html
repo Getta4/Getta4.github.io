@@ -63,6 +63,8 @@
                 height: 40px;
                 background-size: cover;
                 background-position: center;
+                background-repeat: no-repeat;
+                border-radius: 50%;
                 z-index: 10;
             }
 
@@ -257,13 +259,13 @@
             </div>
             <a id="mailto" href="mailto:mail@gtnk.xyz" target="_blank"><p id="mail">Contact : mail@gtnk.xyz</p></a>
             <div id="followme">
-                <a href="https://twitter.com/Get4_" title="Twitter" target="_blank">
+                <a href="https://l.gtnk.xyz/sns_x" title="Twitter" target="_blank">
                 <img src="image/x_white.webp" alt="twitter" id="twitter"/>
                 </a>
-                <a href="https://Youtube.com/@Getq_" title="YouTube" target="_blank">
+                <a href="https://l.gtnk.xyz/sns_youtube" title="YouTube" target="_blank">
                 <img src="image/youtube_white.webp" alt="YouTube" id="youtube"/>
                 </a>
-                <a href="https://github.com/Getta4" title="Github" target="_blank">
+                <a href="https://l.gtnk.xyz/github" title="Github" target="_blank">
                 <img src="image/github_white.webp" alt="Github" id="github"/>
                 </a>
                 
@@ -274,169 +276,7 @@
         </div>
       
         <script>
-            const discordStatus = document.getElementById("discord-status")
             let mode = document.body;
-
-            // より詳細なステータス判定関数
-            function parseStatusFromSVG(svgContent) {
-                let decodedContent = '';
-                
-                // Base64データURLかどうかを判定してデコードする
-                if (svgContent.startsWith('data:image/svg+xml;base64,') || svgContent.startsWith('data:image/svg+xml; charset=utf-8;base64,')) {
-                    try {
-                        // Base64部分を抽出してデコード
-                        const base64String = svgContent.split(',')[1];
-                        decodedContent = atob(base64String);
-                    } catch (e) {
-                        console.error('Base64デコードに失敗しました:', e);
-                        decodedContent = svgContent; // 失敗した場合は元の内容をそのまま使う
-                    }
-                } else {
-                    // Base64でない場合は、そのままの内容を使う
-                    decodedContent = svgContent;
-                }
-
-                const lowerCaseContent = decodedContent.toLowerCase();
-
-                // 優先度の高いステータスから順に判定
-                if (lowerCaseContent.includes('online')) {
-                    return 'online';
-                }
-                if (lowerCaseContent.includes('idle')) {
-                    return 'idle';
-                }
-                if (lowerCaseContent.includes('do not disturb') || lowerCaseContent.includes('dnd')) {
-                    return 'dnd';
-                }
-                // offlineは他の単語に含まれる可能性があるため、最後に判定
-                if (lowerCaseContent.includes('offline')) {
-                    return 'offline';
-                }
-                
-                // 色による判定（フォールバック）
-                if (lowerCaseContent.includes('#43b581') || lowerCaseContent.includes('rgb(67, 181, 129)')) {
-                    return 'online'; // 緑色
-                } else if (lowerCaseContent.includes('#faa61a') || lowerCaseContent.includes('rgb(250, 166, 26)')) {
-                    return 'idle'; // 黄色
-                } else if (lowerCaseContent.includes('#f04747') || lowerCaseContent.includes('rgb(240, 71, 71)')) {
-                    return 'dnd'; // 赤色
-                } else if (lowerCaseContent.includes('#747f8d') || lowerCaseContent.includes('rgb(116, 127, 141)')) {
-                    return 'offline'; // グレー
-                }
-                
-                return 'offline'; // デフォルト
-            }
-
-            // Discordステータスを更新（修正版）
-            async function updateDiscordStatusWithProxy() {
-                try {
-                    const proxyUrl = 'https://api.allorigins.win/get?url=';
-                    const apiUrl = `https://api.statusbadges.me/badge/status/957152000313786459?t=${Date.now()}`;
-                    
-                    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    // SVG内容出力　Discordのステータスチェック
-                    console.log("--- SVG Content from Proxy ---");
-                    console.log(data.contents);
-                    // ここまで
-
-                    const status = parseStatusFromSVG(data.contents);
-                    
-                    console.log('Detected Status:', status); // ステータス判定　チェック
-                    showStatusImage(status);
-                    
-                } catch (error) {
-                    console.error('Discord status fetch error:', error);
-                    updateDiscordStatusFallback();
-                }
-            }
-
-            // フォールバック
-            function updateDiscordStatusFallback() {
-                fetch('https://api.statusbadges.me/badge/status/957152000313786459?t=' + Date.now())
-                    .then(response => response.text())
-                    .then(svgContent => {
-                       
-                        console.log("--- SVG Content from Fallback ---");
-                        console.log(svgContent);
-                       
-
-                        const status = parseStatusFromSVG(svgContent);
-                        //console.log('Fallback Detected Status:', status); // デバッグ用
-                        showStatusImage(status);
-                    })
-                    .catch(error => {
-                        console.error('Fallback error:', error);
-                        showStatusImage('offline');
-                    });
-            }
-
-            // 指定されたステータスの画像を表示
-            function showStatusImage(status) {
-                discordStatus.innerHTML = '';
-
-                let statusClass = 'status-offline';
-                let imgSrc = 'image/status/offline.webp';
-                let altText = 'Offline';
-                let tooltipText = 'Offline';
-
-                switch(status) {
-                    case 'online':
-                        statusClass = 'status-online';
-                        imgSrc = 'image/status/online.webp';
-                        altText = 'Online';
-                        tooltipText = 'Online';
-                        break;
-                    case 'idle':
-                        statusClass = 'status-idle';
-                        imgSrc = 'image/status/idle.webp';
-                        altText = 'Idle';
-                        tooltipText = 'Idle';
-                        break;
-                    case 'dnd':
-                        statusClass = 'status-dnd';
-                        imgSrc = 'image/status/dnd.webp';
-                        altText = 'Do Not Disturb';
-                        tooltipText = 'Do Not Disturb';
-                        break;
-                }
-
-                discordStatus.className = 'status-indicator ' + statusClass;
-                discordStatus.setAttribute('data-tooltip', tooltipText);
-
-                const statusImg = document.createElement('img');
-                statusImg.src = imgSrc;
-                statusImg.alt = altText;
-                statusImg.style.width = '100%';
-                statusImg.style.height = '100%';
-                statusImg.style.objectFit = 'cover';
-                statusImg.style.borderRadius = '50%';
-
-                statusImg.onload = function() {
-                    discordStatus.innerHTML = '';
-                    discordStatus.appendChild(statusImg);
-                };
-
-                statusImg.onerror = function() {
-                    console.error(`画像の読み込みに失敗しました: ${imgSrc}。背景色のみ表示します。`);
-                    discordStatus.innerHTML = '';
-                };
-            }
-
-            // メイン初期化関数
-            function initializeDiscordStatus() {
-                // プロキシ経由を試す
-                updateDiscordStatusWithProxy().catch(() => {
-                    // 失敗時はフォールバック
-                    updateDiscordStatusFallback();
-                });
-            }
 
             // Cookieの操作関数
             function setCookie(name, value, days) {
@@ -509,37 +349,99 @@
             // ページ読み込み時の動作
             window.addEventListener('DOMContentLoaded', () => {
                 loadTheme();//cokkieからテーマ復元
-                initializeDiscordStatus();//Discordステータスを取得
 
                 const statusContainer = document.querySelector('.status-container');
+                const statusIndicator = document.getElementById('discord-status');
                 const originalTooltipText = 'Discord : get4_';
+                const statusBadgeUrl = 'https://api.statusbadges.me/badge/status/957152000313786459';
+                const statusImageMap = {
+                    online: 'image/status/online.webp',
+                    idle: 'image/status/idle.webp',
+                    dnd: 'image/status/dnd.webp',
+                    offline: 'image/status/offline.webp'
+                };
                 let isCopying = false;
 
+                const showCopiedTooltip = () => {
+                    statusContainer.setAttribute('data-tooltip', 'Copied!');
+                    statusContainer.classList.add('copied');
+                    statusContainer.classList.add('show-tooltip');
+
+                    setTimeout(() => {
+                        statusContainer.setAttribute('data-tooltip', originalTooltipText);
+                        statusContainer.classList.remove('copied');
+                        statusContainer.classList.remove('show-tooltip');
+                        isCopying = false;
+                    }, 1500);
+                };
+
+                const copyDiscordId = async () => {
+                    const discordId = 'get4_';
+
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(discordId);
+                        return;
+                    }
+
+                    const tempTextarea = document.createElement('textarea');
+                    tempTextarea.value = discordId;
+                    tempTextarea.setAttribute('readonly', '');
+                    tempTextarea.style.position = 'absolute';
+                    tempTextarea.style.left = '-9999px';
+                    tempTextarea.style.opacity = '0';
+                    document.body.appendChild(tempTextarea);
+                    tempTextarea.select();
+                    tempTextarea.setSelectionRange(0, tempTextarea.value.length);
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextarea);
+                };
+
                 statusContainer.setAttribute('data-tooltip', originalTooltipText);
+                statusIndicator.style.backgroundImage = `url("${statusImageMap.offline}")`;
+                statusIndicator.setAttribute('data-tooltip', 'offline');
+
+                const applyStatusImage = (titleText) => {
+                    const normalizedTitle = titleText.trim().toLowerCase();
+                    const match = normalizedTitle.match(/currently\s+(online|idle|dnd|offline)/);
+                    const statusKey = match ? match[1] : normalizedTitle;
+                    const statusImage = statusImageMap[statusKey] || statusImageMap.offline;
+                    const statusLabel = statusImageMap[statusKey] ? statusKey : 'offline';
+
+                    statusIndicator.style.backgroundImage = `url("${statusImage}")`;
+                    statusIndicator.setAttribute('data-tooltip', statusLabel);
+                    statusIndicator.setAttribute('data-status', statusKey);
+                };
+
+                fetch(statusBadgeUrl)
+                    .then((response) => response.text())
+                    .then((badgeText) => {
+                        const parsedBadge = new DOMParser().parseFromString(badgeText, 'image/svg+xml');
+                        const titleText = parsedBadge.querySelector('title')?.textContent || '';
+
+                        console.log('status badge title:', titleText);
+
+                        if (titleText) {
+                            applyStatusImage(titleText);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('ステータス画像の取得に失敗しました:', error);
+                    });
 
                 //DiscordIDをコピー
                 statusContainer.addEventListener('click', (event) => {
-                    // クリックされた要素がステータスインジケーターまたはその子要素の場合、コピー処理を中断
-                    const statusIndicator = document.getElementById('discord-status');
                     if (statusIndicator.contains(event.target)) {
                         return;
                     }
 
                     if (isCopying) return;
 
-                    navigator.clipboard.writeText('get4_').then(() => {
-                        isCopying = true;
-                        statusContainer.setAttribute('data-tooltip', 'Copied!');
-                        statusContainer.classList.add('copied');
-                        statusContainer.classList.add('show-tooltip');
+                    isCopying = true;
 
-                        setTimeout(() => {
-                            statusContainer.setAttribute('data-tooltip', originalTooltipText);
-                            statusContainer.classList.remove('copied');
-                            statusContainer.classList.remove('show-tooltip');
-                            isCopying = false;
-                        }, 1500);
-                    }).catch(err => {
+                    copyDiscordId().then(() => {
+                        showCopiedTooltip();
+                    }).catch((err) => {
+                        isCopying = false;
                         console.error('クリップボードへのコピーに失敗しました:', err);
                     });
                 });
