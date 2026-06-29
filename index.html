@@ -353,7 +353,7 @@
                 const statusContainer = document.querySelector('.status-container');
                 const statusIndicator = document.getElementById('discord-status');
                 const originalTooltipText = 'Discord : get4_';
-                const statusBadgeUrl = 'https://api.statusbadges.me/badge/status/957152000313786459';
+                const statusPresenceUrl = 'https://api.statusbadges.me/presence/957152000313786459';
                 const statusImageMap = {
                     online: 'image/status/online.webp',
                     idle: 'image/status/idle.webp',
@@ -405,23 +405,26 @@
                     const match = normalizedTitle.match(/currently\s+(online|idle|dnd|offline)/);
                     const statusKey = match ? match[1] : normalizedTitle;
                     const statusImage = statusImageMap[statusKey] || statusImageMap.offline;
-                    const statusLabel = statusImageMap[statusKey] ? statusKey : 'offline';
+                    const statusLabel = statusKey === 'dnd'
+                        ? 'Do not Distrab'
+                        : statusImageMap[statusKey]
+                            ? statusKey
+                            : 'offline';
 
                     statusIndicator.style.backgroundImage = `url("${statusImage}")`;
                     statusIndicator.setAttribute('data-tooltip', statusLabel);
                     statusIndicator.setAttribute('data-status', statusKey);
                 };
 
-                fetch(statusBadgeUrl)
-                    .then((response) => response.text())
-                    .then((badgeText) => {
-                        const parsedBadge = new DOMParser().parseFromString(badgeText, 'image/svg+xml');
-                        const titleText = parsedBadge.querySelector('title')?.textContent || '';
+                fetch(statusPresenceUrl)
+                    .then((response) => response.json())
+                    .then((presenceData) => {
+                        const statusText = presenceData?.status || '';
 
-                        console.log('status badge title:', titleText);
+                        console.log('status presence:', statusText);
 
-                        if (titleText) {
-                            applyStatusImage(titleText);
+                        if (statusText) {
+                            applyStatusImage(statusText);
                         }
                     })
                     .catch((error) => {
